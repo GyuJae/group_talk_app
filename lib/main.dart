@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:group_talk_app/constants/Sizes.dart';
+import 'package:group_talk_app/router.dart';
 
 void main() {
   runApp(const GroupTalkApp());
@@ -9,7 +10,8 @@ class GroupTalkApp extends StatelessWidget {
   const GroupTalkApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'Group Talk App',
       themeMode: ThemeMode.system,
@@ -52,18 +54,6 @@ class GroupTalkApp extends StatelessWidget {
             color: Colors.white,
             fontSize: Sizes.size18,
             fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "정규재",
-          ),
-        ),
-        body: const Center(
-          child: Text(
-            "정규재",
           ),
         ),
       ),
