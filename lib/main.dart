@@ -35,6 +35,9 @@ class GroupTalkApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade200,
+        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -55,6 +58,9 @@ class GroupTalkApp extends StatelessWidget {
             fontSize: Sizes.size18,
             fontWeight: FontWeight.w600,
           ),
+        ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade900,
         ),
       ),
     );
