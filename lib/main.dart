@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:group_talk_app/constants/Sizes.dart';
+import 'package:group_talk_app/features/auth/repos/auth_repo.dart';
+import 'package:group_talk_app/features/auth/view_models/auth_view_model.dart';
 import 'package:group_talk_app/router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const GroupTalkApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final authRepository = AuthRepository(sharedPreferences);
+
+  runApp(ProviderScope(
+    overrides: [
+      authProvider.overrideWith(
+        () => AuthViewModel(authRepository),
+      ),
+    ],
+    child: const GroupTalkApp(),
+  ));
 }
 
-class GroupTalkApp extends StatelessWidget {
+class GroupTalkApp extends ConsumerWidget {
   const GroupTalkApp({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
       title: 'Group Talk App',
       themeMode: ThemeMode.system,

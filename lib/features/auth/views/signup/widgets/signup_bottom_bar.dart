@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:group_talk_app/constants/gaps.dart';
 import 'package:group_talk_app/constants/sizes.dart';
-import 'package:group_talk_app/features/auth/login/screen.dart';
+import 'package:group_talk_app/features/auth/views/login/screen.dart';
 
 class SignUpBottomBar extends StatelessWidget {
   const SignUpBottomBar({super.key});

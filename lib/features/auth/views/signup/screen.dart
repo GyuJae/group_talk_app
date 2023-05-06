@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:group_talk_app/constants/Sizes.dart';
 import 'package:group_talk_app/constants/gaps.dart';
-import 'package:group_talk_app/features/auth/login/widgets/login_bottom_bar.dart';
-import 'package:group_talk_app/features/auth/login/widgets/login_title.dart';
-import 'package:group_talk_app/features/auth/widgets/username_text_field.dart';
-import 'package:group_talk_app/features/auth/widgets/form_button.dart';
-import 'package:group_talk_app/features/auth/widgets/password_text_field.dart';
+import 'package:group_talk_app/features/auth/views/signup/widgets/signup_bottom_bar.dart';
+import 'package:group_talk_app/features/auth/views/signup/widgets/signup_title.dart';
+import 'package:group_talk_app/features/auth/views/widgets/form_button.dart';
+import 'package:group_talk_app/features/auth/views/widgets/password_text_field.dart';
+import 'package:group_talk_app/features/auth/views/widgets/username_text_field.dart';
 
 enum FormDataKey {
   username,
   password,
 }
 
-class LoginScreen extends StatefulWidget {
-  static const String routeName = 'login';
-  static const String routePath = '/login';
+class SignUpScreen extends StatefulWidget {
+  static const String routeName = 'sign-up';
+  static const String routePath = '/sign-up';
 
-  const LoginScreen({super.key});
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
+class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final Map<FormDataKey, String> _formData = {
     FormDataKey.username: '',
     FormDataKey.password: '',
   };
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -64,7 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState == null || !_formKey.currentState!.validate()) {
       return;
     }
-    // TODO: Implement login
+
+    // TODO: Implement form submit
   }
 
   @override
@@ -79,15 +80,11 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.all(Sizes.size24),
               child: Column(
                 children: [
-                  const LoginTitle(),
+                  const SignUpTitle(),
                   UsernameTextField(
-                    labelText: '이름',
-                    hintText: '이름을 입력해주세요',
                     controller: _usernameController,
                   ),
                   PasswordTextField(
-                    labelText: '비밀번호',
-                    hintText: '비밀번호를 입력해주세요',
                     controller: _passwordController,
                   ),
                   Gaps.v36,
@@ -96,7 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: FormButton(
                       isFormValid: _formKey.currentState != null &&
                           _formKey.currentState!.validate(),
-                      text: '로그인',
+                      text: '가입하기',
+                      isLoading: true,
                     ),
                   )
                 ],
@@ -105,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           bottomNavigationBar: const BottomAppBar(
             elevation: 2,
-            child: LoginBottomBar(),
+            child: SignUpBottomBar(),
           ),
         ),
       ),

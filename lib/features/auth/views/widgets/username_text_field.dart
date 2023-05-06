@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
 class UsernameTextField extends StatelessWidget {
-  final String labelText;
-  final String hintText;
   final TextEditingController controller;
 
   const UsernameTextField({
     super.key,
-    required this.labelText,
-    required this.hintText,
     required this.controller,
   });
 
@@ -22,16 +18,16 @@ class UsernameTextField extends StatelessWidget {
       controller: controller,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return '$labelText을 입력해주세요';
+          return '이름을 입력해주세요';
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: labelText,
+        labelText: "이름",
         labelStyle: TextStyle(
           color: Colors.grey.shade500,
         ),
-        hintText: hintText,
+        hintText: "이름을 입력해주세요",
         hintStyle: TextStyle(
           color: Colors.grey.shade300,
         ),

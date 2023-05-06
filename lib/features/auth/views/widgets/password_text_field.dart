@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PasswordTextField extends StatefulWidget {
-  final String labelText;
-  final String hintText;
   final TextEditingController controller;
 
   const PasswordTextField({
     super.key,
-    required this.labelText,
-    required this.hintText,
     required this.controller,
   });
 
@@ -35,17 +31,17 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       controller: widget.controller,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return '${widget.labelText}을 입력해주세요';
+          return '비밀번호를 입력해주세요';
         }
         return null;
       },
       obscureText: _passwordVisible,
       decoration: InputDecoration(
-        labelText: widget.labelText,
+        labelText: '비밀번호',
         labelStyle: TextStyle(
           color: Colors.grey.shade500,
         ),
-        hintText: widget.hintText,
+        hintText: '비밀번호를 입력해주세요',
         hintStyle: TextStyle(
           color: Colors.grey.shade300,
         ),

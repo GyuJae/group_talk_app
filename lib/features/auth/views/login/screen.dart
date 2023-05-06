@@ -1,37 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:group_talk_app/constants/Sizes.dart';
 import 'package:group_talk_app/constants/gaps.dart';
-import 'package:group_talk_app/features/auth/signup/widgets/signup_bottom_bar.dart';
-import 'package:group_talk_app/features/auth/signup/widgets/signup_title.dart';
-import 'package:group_talk_app/features/auth/widgets/username_text_field.dart';
-import 'package:group_talk_app/features/auth/widgets/form_button.dart';
-import 'package:group_talk_app/features/auth/widgets/password_text_field.dart';
+import 'package:group_talk_app/features/auth/views/login/widgets/login_bottom_bar.dart';
+import 'package:group_talk_app/features/auth/views/login/widgets/login_result.dart';
+import 'package:group_talk_app/features/auth/views/login/widgets/login_title.dart';
+import 'package:group_talk_app/features/auth/views/login/view_models/login_view_model.dart';
+import 'package:group_talk_app/features/auth/views/widgets/form_button.dart';
+import 'package:group_talk_app/features/auth/views/widgets/password_text_field.dart';
+import 'package:group_talk_app/features/auth/views/widgets/username_text_field.dart';
 
 enum FormDataKey {
   username,
   password,
 }
 
-class SignUpScreen extends StatefulWidget {
-  static const String routeName = 'sign-up';
-  static const String routePath = '/';
+class LoginScreen extends ConsumerStatefulWidget {
+  static const String routeName = 'login';
+  static const String routePath = '/login';
 
-  const SignUpScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class LoginScreenState extends ConsumerState<LoginScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final Map<FormDataKey, String> _formData = {
     FormDataKey.username: '',
     FormDataKey.password: '',
   };
-
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -60,12 +63,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     FocusScope.of(context).unfocus();
   }
 
-  void _onFormSubmit() {
+  void _onFormSubmit() async {
     if (_formKey.currentState == null || !_formKey.currentState!.validate()) {
       return;
     }
-
-    // TODO: Implement form submit
+    await ref.read(loginProvider.notifier).login(
+          username: _formData[FormDataKey.username]!,
+          password: _formData[FormDataKey.password]!,
+          context: context,
+        );
   }
 
   @override
@@ -80,15 +86,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.all(Sizes.size24),
               child: Column(
                 children: [
-                  const SignUpTitle(),
+                  const LoginTitle(),
                   UsernameTextField(
-                    labelText: '이름',
-                    hintText: '이름을 입력해주세요',
                     controller: _usernameController,
                   ),
                   PasswordTextField(
-                    labelText: '비밀번호',
-                    hintText: '비밀번호를 입력해주세요',
                     controller: _passwordController,
                   ),
                   Gaps.v36,
@@ -97,16 +99,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: FormButton(
                       isFormValid: _formKey.currentState != null &&
                           _formKey.currentState!.validate(),
-                      text: '가입하기',
+                      text: '로그인',
+                      isLoading: ref.watch(loginProvider).isLoading,
                     ),
-                  )
+                  ),
+                  const LoginResult()
                 ],
               ),
             ),
           ),
           bottomNavigationBar: const BottomAppBar(
             elevation: 2,
-            child: SignUpBottomBar(),
+            child: LoginBottomBar(),
           ),
         ),
       ),
